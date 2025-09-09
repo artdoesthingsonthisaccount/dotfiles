@@ -28,6 +28,16 @@ require("lazy").setup({
     },
   },
 
+  {
+    "lervag/vimtex",
+    lazy = false,  -- load immediately
+    init = function()
+      vim.g.vimtex_view_method = "zathura"      -- use zathura as viewer
+      vim.g.vimtex_compiler_method = "latexmk"  -- auto build with latexmk
+    end,
+  },
+
+
   --theme
   { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {} },
 })
@@ -98,6 +108,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function() vim.lsp.buf.format() end
 })
 
+
+
 --
 --make pretty
 --
@@ -111,5 +123,5 @@ vim.o.expandtab = true
 vim.o.wrap = false
 
 --theme
-vim.cmd[[colorscheme tokyonight]]
-
+vim.cmd[[colorscheme tokyonight-storm]]
+vim.o.termguicolors = true

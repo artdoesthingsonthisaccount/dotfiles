@@ -26,3 +26,5 @@ background = "#535164"
 #cursor = {text = "424153", cursor = "#ffffff"}
 
 
+[env]
+TERM = "xterm-256color"
