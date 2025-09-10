@@ -30,7 +30,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 #dual monitor setup (no underscan checking)
 #need to check for HDMI1 and 2 seperately because the machine chooses 2 or 3 randomly on boot
-exec_always --no-startup-id xrandr --output "HDMI-1-0" --auto --primary --output "HDMI-2" --right-of "HDMI-1-0" --rotate left
+exec_always --no-startup-id xrandr --output "HDMI-1-0" --auto --primary --output "HDMI-3" --right-of "HDMI-1-0" --rotate left
 
 
 #wallpaper
