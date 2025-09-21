@@ -16,8 +16,8 @@ set $mod Mod4
 font pango:monospace 9 
 #font JetBrains Mono NL:Regular 8
 
-gaps inner 10
-gaps outer 10
+gaps inner 15
+gaps outer 15
 smart_gaps on
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -28,22 +28,12 @@ smart_gaps on
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-#dual monitor setup (no underscan checking)
-#need to check for HDMI1 and 2 seperately because the machine chooses 2 or 3 randomly on boot
-exec_always --no-startup-id xrandr --output "HDMI-1-0" --auto --primary --output "HDMI-3" --right-of "HDMI-1-0" --rotate left
-
-
-#wallpaper
-#exec_always --no-startup-id nitrogen --set-fill --set-color=#abbcda ~/.wallpaper/betterwp.png
-#exec_always --no-startup-id nitrogen --set-auto --head=0 --set-auto ~/.wallpaper/goodwp.png --set-auto --head=1 ~/.wallpaper/goodwp.png
-exec_always --no-startup-id feh --recursive --bg-scale /home/asmuley1/.config/bg
 
 #start up picom
 exec_always --no-startup-id picom
 
-#start up autotiling script
-#exec_always --no-startup-id ~/.config/i3/autotiling.py
-
+# Remap keys: swap Alt/Win and make Caps → Ctrl
+exec_always --no-startup-id setxkbmap -option altwin:swap_alt_win -option caps:ctrl_modifier
 
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
@@ -153,6 +143,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
@@ -165,6 +156,10 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
+#ergonomic "switch to workspace" binds for left hand
+bindsym $mod+`+1 workspace number $ws3
+bindsym $mod+`+2 workspace number $ws4
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -176,6 +171,12 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
+#ergonomic "move focused container to workspace" binds for left hand
+bindsym $mod+Shift+`+3 move container to workspace number $ws3
+bindsym $mod+Shift+`+4 move container to workspace number $ws4
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -216,3 +217,44 @@ bindsym $mod+r mode "resize"
 #bar {
 #        status_command i3status
 #}
+
+
+exec_always --no-startup-id ~/.config/i3/setup.sh
+
+#setup to display the monitors on the correct outputs
+exec_always --no-startup-id ~/.config/i3/generate-workspace-outputs.sh
+#reparses for the correct monitor config files
+include ~/.config/i3/workspace-outputs.conf 
+
+#sets wallpaper
+exec_always --no-startup-id feh --recursive --bg-scale /home/asmuley1/.config/bg
+
+
+#assign certain annoying applications to specific workspaces perminantly
+assign [class = "discord"] 6
+
+#####default setup for workflow starts here:
+
+#main workspace 1: doing stuff
+exec_always --no-startup-id "i3-msg 'workspace 1; append_layout ~/.config/i3/workspace-1.json'"
+#exec_always --no-startup-id alacritty -e neofetch
+#exec_always --no-startup-id alacritty -e htop
+
+#main workspace 2: searching stuff
+#exec_always --no-startup-id i3-msg "workspace 2; exec firefox"
+#exec_always --no-startup-id i3-msg "workspace 2; exec zathura"
+#exec_always --no-startup-id i3-msg "workspace 2; layout tabbed"
+
+#main workspace 3: note-taking (basically obsidian)
+#exec_always --no-startup-id i3-msg "workspace 3; exec obsidian"
+
+
+#trash tab for doing random stuff
+#exec_always --no-startup-id i3-msg "workspace 4; exec firefox"
+#exec_always --no-startup-id i3-msg "workspace 4; exec alacritty"
+
+
+#main workspace 2: view documentation
+#exec_always --no-startup-id i3-msg "workspace 10; exec zathura"
+#exec_always --no-startup-id i3-msg "workspace 10; exec firefox"
+#exec_always --no-startup-id i3-msg "workspace 10; layout tabbed"
